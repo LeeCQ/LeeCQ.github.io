@@ -132,6 +132,24 @@
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '132846793912818',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
 
 
 
@@ -310,6 +328,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/22/NSURLProtocol的简单使用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count fb-comments-count" data-href="www.changqingli.info/2017/03/22/NSURLProtocol的简单使用/" itemprop="commentCount">0</span> comments
+                </a>
+              </span>
+            
           
 
           
@@ -333,26 +361,14 @@
 
       
         
-          
-            <h2 id="NSURLProtocol的简单使用"><a href="#NSURLProtocol的简单使用" class="headerlink" title="NSURLProtocol的简单使用"></a>NSURLProtocol的简单使用</h2><h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><h4 id="1-创建一个类继承NSURLProtocol"><a href="#1-创建一个类继承NSURLProtocol" class="headerlink" title="1. 创建一个类继承NSURLProtocol"></a>1. 创建一个类继承NSURLProtocol</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">CustomURLProtocl</span> : <span class="title">NSURLProtocol</span></span></div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
-<h4 id="2-在-BOOL-application-UIApplication-application-didFinishLaunchingWithOptions-NSDictionary-launchOptions方法中注册"><a href="#2-在-BOOL-application-UIApplication-application-didFinishLaunchingWithOptions-NSDictionary-launchOptions方法中注册" class="headerlink" title="2. 在- (BOOL)application:(UIApplication )application didFinishLaunchingWithOptions:(NSDictionary )launchOptions方法中注册"></a>2. 在- (BOOL)application:(UIApplication <em>)application didFinishLaunchingWithOptions:(NSDictionary </em>)launchOptions方法中注册</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="built_in">NSDictionary</span> *)launchOptions &#123;</div><div class="line"></div><div class="line">    [<span class="built_in">NSURLProtocol</span> registerClass:[CustomURLProtocl <span class="keyword">class</span>]];</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="3-重载方法"><a href="#3-重载方法" class="headerlink" title="3. 重载方法"></a>3. 重载方法</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">+(<span class="built_in">BOOL</span>)canInitWithRequest:(<span class="built_in">NSURLRequest</span> *)request&#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这个方法主要是判断是否要拦截请求，返回NO则不做处理。可以根据自己的需求做相应的逻辑判断。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">+(<span class="built_in">NSURLRequest</span> *)canonicalRequestForRequest:(<span class="built_in">NSURLRequest</span> *)request&#123;</div><div class="line">    <span class="keyword">return</span> request;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>此方法可以对request做一些处理，一般直接返回。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">-(<span class="keyword">void</span>)startLoading&#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>前面 canInitWithRequest 方法中返回YES，拦截到请求则会调用startLoading方法，这里就可以大作文章了。但这里也必须将拦截到的请求重新出去，否则拦截到的请求将不会继续。<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSMutableURLRequest</span> * mutableRequest = <span class="keyword">self</span>.request.mutableCopy;</div><div class="line"></div><div class="line">[[<span class="keyword">self</span> <span class="keyword">class</span>] setProperty:@YES forKey:kFiltter inRequest:mutableRequest];</div><div class="line"></div><div class="line">[<span class="built_in">NSURLSessionConfiguration</span> defaultSessionConfiguration].protocolClasses = @[<span class="keyword">self</span>];</div><div class="line"></div><div class="line"><span class="built_in">NSURLSession</span> *session = [<span class="built_in">NSURLSession</span> sessionWithConfiguration:[<span class="built_in">NSURLSessionConfiguration</span> defaultSessionConfiguration] delegate:<span class="keyword">self</span> delegateQueue:[<span class="built_in">NSOperationQueue</span> mainQueue]];</div><div class="line"></div><div class="line"><span class="built_in">NSURLSessionDataTask</span> *dataTask = [session dataTaskWithRequest:mutableRequest];</div><div class="line"></div><div class="line">[dataTask resume]</div></pre></td></tr></table></figure></p>
-<p>还要就是可以通过[[self class] setProperty:@YES forKey:kFiltter inRequest:mutableRequest]; 给请求添加一个flag 并在+canInitWithRequest 中做判断,以防死循环</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">-(<span class="keyword">void</span>)stopLoading&#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这个没什么好说的</p>
-<p>然后在实现NSURLSessionDelegate的方法</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- (<span class="keyword">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session dataTask:(<span class="built_in">NSURLSessionDataTask</span> *)dataTask</div><div class="line">didReceiveResponse:(<span class="built_in">NSURLResponse</span> *)response</div><div class="line">completionHandler:(<span class="keyword">void</span> (^)(<span class="built_in">NSURLSessionResponseDisposition</span> disposition))completionHandler&#123;</div><div class="line"></div><div class="line">    [<span class="keyword">self</span>.client URLProtocol:<span class="keyword">self</span> didReceiveResponse:response cacheStoragePolicy:<span class="built_in">NSURLCacheStorageAllowed</span>];</div><div class="line">completionHandler(<span class="built_in">NSURLSessionResponseAllow</span>);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- (<span class="keyword">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session dataTask:(<span class="built_in">NSURLSessionDataTask</span> *)dataTask</div><div class="line">didReceiveData:(<span class="built_in">NSData</span> *)data&#123;</div><div class="line">    [<span class="keyword">self</span>.client URLProtocol:<span class="keyword">self</span> didLoadData:data];</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session dataTask:(<span class="built_in">NSURLSessionDataTask</span> *)dataTask</div><div class="line">willCacheResponse:(<span class="built_in">NSCachedURLResponse</span> *)proposedResponse</div><div class="line">completionHandler:(<span class="keyword">void</span> (^)(<span class="built_in">NSCachedURLResponse</span> * _Nullable cachedResponse))completionHandler&#123;</div><div class="line"></div><div class="line">    completionHandler(proposedResponse);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session task:(<span class="built_in">NSURLSessionTask</span> *)task</div><div class="line">didCompleteWithError:(<span class="keyword">nullable</span> <span class="built_in">NSError</span> *)error&#123;</div><div class="line">    <span class="keyword">if</span> (error == <span class="literal">nil</span>) &#123;</div><div class="line"></div><div class="line">        [[<span class="keyword">self</span> client] URLProtocolDidFinishLoading:<span class="keyword">self</span>];</div><div class="line"></div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ( [[error domain] isEqual:<span class="built_in">NSURLErrorDomain</span>] &amp;&amp; ([error code] == <span class="built_in">NSURLErrorCancelled</span>) ) &#123;</div><div class="line"></div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line"></div><div class="line">        [[<span class="keyword">self</span> client] URLProtocol:<span class="keyword">self</span> didFailWithError:error];</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>每个阶段都要通过self.client 调用相对于的方法，否则请求也将不会继续</p>
-
-          
+          <h2 id="NSURLProtocol的简单使用"><a href="#NSURLProtocol的简单使用" class="headerlink" title="NSURLProtocol的简单使用"></a>NSURLProtocol的简单使用</h2>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/22/NSURLProtocol的简单使用/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
