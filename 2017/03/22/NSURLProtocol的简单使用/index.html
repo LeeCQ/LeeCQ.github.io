@@ -87,16 +87,19 @@
 
 
 
-<meta name="description" content="NSURLProtocol的简单使用">
+<meta name="description" content="NSURLProtocol的简单使用使用方法1. 创建一个类继承NSURLProtocol123@interface CustomURLProtocl : NSURLProtocol@end
+2. 在- (BOOL)application:(UIApplication )application didFinishLaunchingWithOptions:(NSDictionary )launchO">
 <meta property="og:type" content="article">
 <meta property="og:title" content="NSURLProtocol的简单使用">
 <meta property="og:url" content="www.changqingli.info/2017/03/22/NSURLProtocol的简单使用/index.html">
 <meta property="og:site_name" content="李昌庆的blog">
-<meta property="og:description" content="NSURLProtocol的简单使用">
-<meta property="og:updated_time" content="2017-06-13T13:16:41.000Z">
+<meta property="og:description" content="NSURLProtocol的简单使用使用方法1. 创建一个类继承NSURLProtocol123@interface CustomURLProtocl : NSURLProtocol@end
+2. 在- (BOOL)application:(UIApplication )application didFinishLaunchingWithOptions:(NSDictionary )launchO">
+<meta property="og:updated_time" content="2017-06-14T07:23:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NSURLProtocol的简单使用">
-<meta name="twitter:description" content="NSURLProtocol的简单使用">
+<meta name="twitter:description" content="NSURLProtocol的简单使用使用方法1. 创建一个类继承NSURLProtocol123@interface CustomURLProtocl : NSURLProtocol@end
+2. 在- (BOOL)application:(UIApplication )application didFinishLaunchingWithOptions:(NSDictionary )launchO">
 
 
 
@@ -341,9 +344,9 @@
       
 
       
-        <h2 id="NSURLProtocol的简单使用"><a href="#NSURLProtocol的简单使用" class="headerlink" title="NSURLProtocol的简单使用"></a>NSURLProtocol的简单使用</h2><a id="more"></a>
-<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><h4 id="1-创建一个类继承NSURLProtocol"><a href="#1-创建一个类继承NSURLProtocol" class="headerlink" title="1. 创建一个类继承NSURLProtocol"></a>1. 创建一个类继承NSURLProtocol</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">CustomURLProtocl</span> : <span class="title">NSURLProtocol</span></span></div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+        <h2 id="NSURLProtocol的简单使用"><a href="#NSURLProtocol的简单使用" class="headerlink" title="NSURLProtocol的简单使用"></a>NSURLProtocol的简单使用</h2><h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><h4 id="1-创建一个类继承NSURLProtocol"><a href="#1-创建一个类继承NSURLProtocol" class="headerlink" title="1. 创建一个类继承NSURLProtocol"></a>1. 创建一个类继承NSURLProtocol</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">CustomURLProtocl</span> : <span class="title">NSURLProtocol</span></span></div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
 <h4 id="2-在-BOOL-application-UIApplication-application-didFinishLaunchingWithOptions-NSDictionary-launchOptions方法中注册"><a href="#2-在-BOOL-application-UIApplication-application-didFinishLaunchingWithOptions-NSDictionary-launchOptions方法中注册" class="headerlink" title="2. 在- (BOOL)application:(UIApplication )application didFinishLaunchingWithOptions:(NSDictionary )launchOptions方法中注册"></a>2. 在- (BOOL)application:(UIApplication <em>)application didFinishLaunchingWithOptions:(NSDictionary </em>)launchOptions方法中注册</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="built_in">NSDictionary</span> *)launchOptions &#123;</div><div class="line"></div><div class="line">    [<span class="built_in">NSURLProtocol</span> registerClass:[CustomURLProtocl <span class="keyword">class</span>]];</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>
 <h4 id="3-重载方法"><a href="#3-重载方法" class="headerlink" title="3. 重载方法"></a>3. 重载方法</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">+(<span class="built_in">BOOL</span>)canInitWithRequest:(<span class="built_in">NSURLRequest</span> *)request&#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这个方法主要是判断是否要拦截请求，返回NO则不做处理。可以根据自己的需求做相应的逻辑判断。</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">+(<span class="built_in">NSURLRequest</span> *)canonicalRequestForRequest:(<span class="built_in">NSURLRequest</span> *)request&#123;</div><div class="line">    <span class="keyword">return</span> request;</div><div class="line">&#125;</div></pre></td></tr></table></figure>

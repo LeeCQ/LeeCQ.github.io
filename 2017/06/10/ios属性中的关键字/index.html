@@ -87,16 +87,25 @@
 
 
 
-<meta name="description" content="iOS 属性的关键字">
+<meta name="description" content="iOS 属性的关键字
+@property@property = ivar + getter + setter;
+
+@property 我们称之为“属性”，“属性”有两大概念：ivar（实例变量） getter + setter（存取方法）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ios属性中的关键字">
 <meta property="og:url" content="www.changqingli.info/2017/06/10/ios属性中的关键字/index.html">
 <meta property="og:site_name" content="李昌庆的blog">
-<meta property="og:description" content="iOS 属性的关键字">
-<meta property="og:updated_time" content="2017-06-13T13:16:32.000Z">
+<meta property="og:description" content="iOS 属性的关键字
+@property@property = ivar + getter + setter;
+
+@property 我们称之为“属性”，“属性”有两大概念：ivar（实例变量） getter + setter（存取方法）">
+<meta property="og:updated_time" content="2017-06-14T07:23:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ios属性中的关键字">
-<meta name="twitter:description" content="iOS 属性的关键字">
+<meta name="twitter:description" content="iOS 属性的关键字
+@property@property = ivar + getter + setter;
+
+@property 我们称之为“属性”，“属性”有两大概念：ivar（实例变量） getter + setter（存取方法）">
 
 
 
@@ -341,11 +350,10 @@
       
 
       
-        <h1 id="iOS-属性的关键字"><a href="#iOS-属性的关键字" class="headerlink" title="iOS 属性的关键字"></a>iOS 属性的关键字</h1><a id="more"></a>
-<hr>
+        <h1 id="iOS-属性的关键字"><a href="#iOS-属性的关键字" class="headerlink" title="iOS 属性的关键字"></a>iOS 属性的关键字</h1><hr>
 <h2 id="property"><a href="#property" class="headerlink" title="@property"></a>@property</h2><p>@property = ivar + getter + setter;</p>
 <blockquote>
-<p>@property 我们称之为“属性”，“属性”有两大概念：ivar（实例变量） getter + setter（存取方法）</p>
+<p>@property 我们称之为“属性”，“属性”有两大概念：ivar（实例变量） getter + setter（存取方法）<br><a id="more"></a></p>
 </blockquote>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>,<span class="keyword">copy</span>)<span class="built_in">NSString</span> * name;</div></pre></td></tr></table></figure>
 <p>完成属性定义后，编译器会自动添加属性的访问方法，这个过程是在编译期间生成的，出了自动生成访问方法外，编译器还会向类中添加一个实例变量，并义属性前加下划线作为实例变量的名字（“_name”）。</p>

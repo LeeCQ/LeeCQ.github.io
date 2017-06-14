@@ -591,7 +591,10 @@
 
       
         
-          <h1 id="iOS-属性的关键字"><a href="#iOS-属性的关键字" class="headerlink" title="iOS 属性的关键字"></a>iOS 属性的关键字</h1>
+          <h1 id="iOS-属性的关键字"><a href="#iOS-属性的关键字" class="headerlink" title="iOS 属性的关键字"></a>iOS 属性的关键字</h1><hr>
+<h2 id="property"><a href="#property" class="headerlink" title="@property"></a>@property</h2><p>@property = ivar + getter + setter;</p>
+<blockquote>
+<p>@property 我们称之为“属性”，“属性”有两大概念：ivar（实例变量） getter + setter（存取方法）<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/06/10/ios属性中的关键字/#more" rel="contents">
@@ -716,7 +719,8 @@
 
       
         
-          <h2 id="NSURLProtocol的简单使用"><a href="#NSURLProtocol的简单使用" class="headerlink" title="NSURLProtocol的简单使用"></a>NSURLProtocol的简单使用</h2>
+          <h2 id="NSURLProtocol的简单使用"><a href="#NSURLProtocol的简单使用" class="headerlink" title="NSURLProtocol的简单使用"></a>NSURLProtocol的简单使用</h2><h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><h4 id="1-创建一个类继承NSURLProtocol"><a href="#1-创建一个类继承NSURLProtocol" class="headerlink" title="1. 创建一个类继承NSURLProtocol"></a>1. 创建一个类继承NSURLProtocol</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">CustomURLProtocl</span> : <span class="title">NSURLProtocol</span></span></div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<h4 id="2-在-BOOL-application-UIApplication-application-didFinishLaunchingWithOptions-NSDictionary-launchOptions方法中注册"><a href="#2-在-BOOL-application-UIApplication-application-didFinishLaunchingWithOptions-NSDictionary-launchOptions方法中注册" class="headerlink" title="2. 在- (BOOL)application:(UIApplication )application didFinishLaunchingWithOptions:(NSDictionary )launchOptions方法中注册"></a>2. 在- (BOOL)application:(UIApplication <em>)application didFinishLaunchingWithOptions:(NSDictionary </em>)launchOptions方法中注册</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="built_in">NSDictionary</span> *)launchOptions &#123;</div><div class="line"></div><div class="line">    [<span class="built_in">NSURLProtocol</span> registerClass:[CustomURLProtocl <span class="keyword">class</span>]];</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/03/22/NSURLProtocol的简单使用/#more" rel="contents">
