@@ -1,0 +1,754 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="iOS多线程之GCD
+多线程多线程的相关概念有：
+进程：一个具有独立功能的程序关于某个数据集合的一次运行活动，仅存的时许通进行资源分配和调度的一个独立单位，可以理解成一个运行中的应用程序。
+线程：进程的一个实体，是CPU调度和分派的基本单位。线程自己基本上不拥有系统资源，只拥有一点在运行中必不可少的资源（如程序计数器，一组寄存器和栈），但是它可与同属一个进程的其他线程共享进程所拥有的全部资源。
+上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS多线程之GCD">
+<meta property="og:url" content="www.changqingli.info/2017/06/14/iOS多线程之GCD/index.html">
+<meta property="og:site_name" content="李昌庆的blog">
+<meta property="og:description" content="iOS多线程之GCD
+多线程多线程的相关概念有：
+进程：一个具有独立功能的程序关于某个数据集合的一次运行活动，仅存的时许通进行资源分配和调度的一个独立单位，可以理解成一个运行中的应用程序。
+线程：进程的一个实体，是CPU调度和分派的基本单位。线程自己基本上不拥有系统资源，只拥有一点在运行中必不可少的资源（如程序计数器，一组寄存器和栈），但是它可与同属一个进程的其他线程共享进程所拥有的全部资源。
+上">
+<meta property="og:updated_time" content="2017-06-14T07:21:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS多线程之GCD">
+<meta name="twitter:description" content="iOS多线程之GCD
+多线程多线程的相关概念有：
+进程：一个具有独立功能的程序关于某个数据集合的一次运行活动，仅存的时许通进行资源分配和调度的一个独立单位，可以理解成一个运行中的应用程序。
+线程：进程的一个实体，是CPU调度和分派的基本单位。线程自己基本上不拥有系统资源，只拥有一点在运行中必不可少的资源（如程序计数器，一组寄存器和栈），但是它可与同属一个进程的其他线程共享进程所拥有的全部资源。
+上">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="www.changqingli.info/2017/06/14/iOS多线程之GCD/"/>
+
+
+
+
+
+  <title> iOS多线程之GCD | 李昌庆的blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">李昌庆的blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="www.changqingli.info/2017/06/14/iOS多线程之GCD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李昌庆">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="李昌庆的blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS多线程之GCD
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-14T15:18:30+08:00">
+                2017-06-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/06/14/iOS多线程之GCD/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="iOS多线程之GCD"><a href="#iOS多线程之GCD" class="headerlink" title="iOS多线程之GCD"></a>iOS多线程之GCD</h1><hr>
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><h3 id="多线程的相关概念有："><a href="#多线程的相关概念有：" class="headerlink" title="多线程的相关概念有："></a>多线程的相关概念有：</h3><ul>
+<li>进程：一个具有独立功能的程序关于某个数据集合的一次运行活动，仅存的时许通进行资源分配和调度的一个独立单位，可以理解成一个运行中的应用程序。</li>
+<li>线程：进程的一个实体，是CPU调度和分派的基本单位。线程自己基本上不拥有系统资源，只拥有一点在运行中必不可少的资源（如程序计数器，一组寄存器和栈），但是它可与同属一个进程的其他线程共享进程所拥有的全部资源。</li>
+<li>上下文切换（Context Switch）：当一个进程中有多个线程来切换时，Context Switch用来记录执行状态，这样的进程和一般的多线程进程没太大差别，但会产生一些额外的开销。 </li>
+</ul>
+<p>由于使用多线程的程序可以在某个线程和其他线程之间反复多次进行上下文切换，因此看上去就好像 1 个 CPU 核能够并列地执行多个线程一样。而且在具有多个 CPU 核的情况下，就不是「看上去像」了，而是真的提供了多个 CPU 核并行执行多个线程的技术。<br><a id="more"></a></p>
+<h3 id="多线程编程的问题"><a href="#多线程编程的问题" class="headerlink" title="多线程编程的问题"></a>多线程编程的问题</h3><p>多线程编程实际上是一种易发生各种问题的编程技术。比如多个线程更新相同的资源会导致数据的不一致（数据竞争）、停止等待时间的线程会导致多个线程相互持续等待（死锁）、使用太多线程会消耗大量内存等。</p>
+<h3 id="多线程编程的优点"><a href="#多线程编程的优点" class="headerlink" title="多线程编程的优点"></a>多线程编程的优点</h3><p>虽然多线程会极易发生各种问题。但是多线程编程可以保证应用程序的响应性能。</p>
+<h2 id="GCD"><a href="#GCD" class="headerlink" title="GCD"></a>GCD</h2><p>GCD属于系统级的线程管理，在Dispatch queue中执行需要执行的任务性能非常的高。开发者只需要定义想执行的任务并追加到适当的 Dispatch Queue 中，GCD 就能生成必要的线程并计划执行任务。</p>
+<h3 id="GCD的基本使用"><a href="#GCD的基本使用" class="headerlink" title="GCD的基本使用"></a>GCD的基本使用</h3><h4 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h4><p>队列是用户存放任务的一个容器，管理着任务的执行顺序。队列分为并行队列和串行队列，在iOS中有以下队列提供使用：<br>1、主队列（dispatch_main_queue），即主线程，属于串行队列<br>2、全局队列（dispatch_global_queue），属于并行队列，可以设置优先级。一共有四个等级：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#define DISPATCH_QUEUE_PRIORITY_HIGH 2                     高</span></div><div class="line"><span class="meta">#define DISPATCH_QUEUE_PRIORITY_DEFAULT 0                  默认</span></div><div class="line"><span class="meta">#define DISPATCH_QUEUE_PRIORITY_LOW (-2)                   低</span></div><div class="line"><span class="meta">#define DISPATCH_QUEUE_PRIORITY_BACKGROUND INT16_MIN       后台</span></div></pre></td></tr></table></figure>
+<p>3、自定义队列（dispatch_queue_create）,可以通过下面方法创建<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_create(<span class="keyword">const</span> <span class="keyword">char</span> *_Nullable label,</div><div class="line">dispatch_queue_attr_t _Nullable attr);</div></pre></td></tr></table></figure></p>
+<p>第一个参数为队里标识，自定义即可。第二个参数为队列的形式（并行DISPATCH_QUEUE_CONCURRENT或串行 DISPATCH_QUEUE_SERIAL），可以填NULL则默认为串行队列。</p>
+<blockquote>
+<p>自定义队列的优先级默认是DISPATCH_QUEUE_PRIORITY_DEFAULT</p>
+</blockquote>
+<h4 id="同步异步"><a href="#同步异步" class="headerlink" title="同步异步"></a>同步异步</h4><p>同步（dispatch_sync）不开启新线程。函数不会立即返回，即阻塞当前线程，等待block同步执行完成。<br>异步（dispatch_async）开启新线程，函数立刻返回。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>并行队列</th>
+<th>串行队列</th>
+<th>主队列</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>异步执行</td>
+<td>开启多个新的线程，任务同时执行</td>
+<td>开启一个新的线程任务按顺序执行</td>
+<td>不开启新的线程任务顺序执行</td>
+</tr>
+<tr>
+<td>同步执行</td>
+<td>不开启新的线程任务顺序执行</td>
+<td>不开启新线程任务顺序执行</td>
+<td>不开启新线程任务顺序执行</td>
+</tr>
+</tbody>
+</table>
+<p>需要注意的是在主线程中使用：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"1"</span>);</div><div class="line"><span class="built_in">dispatch_sync</span>(dispatch_get_main_queue(),^&#123;</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"2"</span>);</div><div class="line">&#125;);</div><div class="line"><span class="built_in">NSlog</span>(<span class="string">@"3"</span>)</div></pre></td></tr></table></figure></p>
+<p>这段代码只会输出 1 之后则发生死锁</p>
+<p>原因:<br>1:dispatch_sync在等待block语句执行完成，而block语句需要在主线程里执行，所以dispatch_sync如果在主线程调用就会造成死锁<br>2:dispatch_sync是同步的，本身就会阻塞当前线程，也即主线程。而又往主线程里塞进去一个block，所以就会发生死锁。<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">dispatch_queue_t</span> aSerialDispatchQueue =</div><div class="line">dispatch_queue_create(<span class="string">"serial"</span>, DISPATCH_QUEUE_SERIAL);</div><div class="line"></div><div class="line"><span class="built_in">dispatch_sync</span>(aSerialDispatchQueue, ^&#123;</div><div class="line"><span class="comment">// block 1</span></div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"任务一"</span>);</div><div class="line"><span class="built_in">dispatch_sync</span>(aSerialDispatchQueue, ^&#123;</div><div class="line"><span class="comment">// block 2</span></div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"任务二"</span>);</div><div class="line">&#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>上面的情况也会发生死锁。在dispatch_sync嵌套使用时要注意：不能在一个嵌套中使用同一个serial dispatch queue，因为会发生死锁。</p>
+<h4 id="组"><a href="#组" class="headerlink" title="组"></a>组</h4><p>1、分组执行一系列任务执行结果汇总输出<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">dispatch_queue_t</span> myQueue = dispatch_queue_create(<span class="string">"concurrent"</span>,DISPATCH_QUEUE_CONCURRENT);</div><div class="line">dispatch_group_t myGroup = dispatch_group_create();</div><div class="line">dispatch_group_async(myGroup,myQueue,^&#123;</div><div class="line"><span class="comment">//任务一</span></div><div class="line">&#125;);          </div><div class="line">dispatch_group_async(myGroup,myQueue,^&#123;</div><div class="line"><span class="comment">//任务二</span></div><div class="line">&#125;);</div><div class="line">dispatch_group_notify(myGroup,myQueue,^&#123;</div><div class="line"><span class="comment">//结果汇总（任务一、任务二都执行完之后会调用这个block）</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>dispatch_group_notify使用场景有例如：多任务执行完成，刷新UI。只需将dispatch_group_notify加入main queue即可。</p>
+<p>2、等待群组任务完成disaptch_group_wait<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">dispatch_group_t myGroup = dispatch_group_create();</div><div class="line">dispatch_group_async(myGroup, dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</div><div class="line"><span class="comment">//任务一</span></div><div class="line">&#125;);     </div><div class="line">dispatch_group_async(myGroup, dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</div><div class="line"><span class="comment">//任务二</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">long</span> ret = dispatch_group_wait(myGroup, <span class="number">1.0</span> * <span class="built_in">NSEC_PER_SEC</span>);<span class="comment">//这个函数会一直等待myGroup的任务执行完毕或者超时，将一直卡在这里不会往下执行.  </span></div><div class="line"><span class="comment">//只有ret==0的时候为成功 其他结果都是失败或者超时</span></div><div class="line"><span class="keyword">if</span> (ret == <span class="number">0</span>) &#123;</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"任务全部执行完毕"</span>);</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"任务超时|失败"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="dispatch-apply"><a href="#dispatch-apply" class="headerlink" title="dispatch_apply"></a>dispatch_apply</h4><p>是同步函数,会阻塞当前线程直到所有循环迭代执行完成。当提交到并发queue时,循环迭代的执行顺序是不确定的。<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">dispatch_queue_t</span> queue = dispatch_queue_create(<span class="string">"queue"</span>, DISPATCH_QUEUE_CONCURRENT);</div><div class="line">dispatch_apply(<span class="number">10</span>, queue, ^(size_t index) &#123; <span class="comment">//默认是同步</span></div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"dispatch_apply 执行 ：%zu %@"</span>,index,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"主线程"</span>:<span class="string">@"子线程"</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<ul>
+<li>如果是在在串行执行那么10个任务会按顺序执行直到结束,会阻塞当前线程。</li>
+<li>如果放在并行队列执行，10个任务就会在几个线程中执行，开启几个线程由设备CPU核数决定。所以这10个任务中也有可能有些任务是在主线程执行的。依然会阻塞当前线程。直到任务结束。</li>
+</ul>
+<p>我们可以把他加入到异步操作里边使得不阻塞主线程。<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">dispatch_async</span>(queue, ^&#123;</div><div class="line">dispatch_apply(<span class="number">10</span>, queue, ^(size_t index) &#123; </div><div class="line"><span class="comment">//重复任务1</span></div><div class="line">&#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>dispatch_apply的重复任务执行顺序只跟他加入的队列有关。并且如果异步操作里边有多个dispatch_apply操作，dispatch_apply还是会顺序执行，并阻塞当前线程直到任务执行完成。<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">dispatch_async</span>(queue, ^&#123;</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"开始第一个任务组"</span>);</div><div class="line">dispatch_apply(<span class="number">10</span>, queue, ^(size_t index) &#123; </div><div class="line"><span class="comment">//重复任务1</span></div><div class="line">&#125;);</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"开始第二个任务组"</span>);</div><div class="line">dispatch_apply(<span class="number">10</span>, queue, ^(size_t index) &#123; </div><div class="line"><span class="comment">//重复任务2</span></div><div class="line">&#125;);</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"开始第三个任务组"</span>);</div><div class="line">dispatch_apply(<span class="number">10</span>, queue, ^(size_t index) &#123; </div><div class="line"><span class="comment">//重复任务3</span></div><div class="line">&#125;); </div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>这里的执行顺序是先输出”开始第一个任务组”，当前线程讲阻塞知道第一个apply重复任务执行完毕，在输出”开始第二个任务组”，第二个apply重复任务执行完毕，再输出”开始第三个任务组”，然后开始执行第三个apply任务。不管异步操作是在串行队列还是并行队列结果是一样的。</p>
+<h4 id="dispatch-semaphore-t"><a href="#dispatch-semaphore-t" class="headerlink" title="dispatch_semaphore_t"></a>dispatch_semaphore_t</h4><p>dispatch_semaphore_t可以控制多线程的并发数。<br>1、创建信号量<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_semaphore_t semaphore = dispatch_semaphore_create(<span class="number">0</span>);</div></pre></td></tr></table></figure></p>
+<p>0表示没有资源，调用dispatch_semaphore_wait会立即等待。<br>2、等待信号<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</div></pre></td></tr></table></figure></p>
+<p>可以设置超时参数，改函数返回0表示成功，返回非0表示超时。<br>3、通知信号<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_semaphore_signal(semaphore);</div></pre></td></tr></table></figure></p>
+<p>如果等待线程被唤醒则返回非0，否则返回0。<br>执行10个任务，休息，继续执行10个任务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">dispatch_group_t group = dispatch_group_create();</div><div class="line">dispatch_semaphore_t semaphore = dispatch_semaphore_create(10); //信号总量是10</div><div class="line">dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</div><div class="line">for (int i = 0; i &lt; 100; i++)</div><div class="line">&#123;</div><div class="line">dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);//信号量-1</div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">NSLog(@&quot;%i&quot;,i);</div><div class="line">sleep(2);</div><div class="line">dispatch_semaphore_signal(semaphore);   //信号量＋1</div><div class="line">&#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当for循环执行10次之后当前线程因为dispatch_semaphore_wait函数将进入阻塞状态。当10只任务执行完之后调用dispatch_semaphore_signal使信号量恢复，讲当前线程唤醒，继续执行for循环。所以结果将会是打印10次结果暂停2秒，继续打印10次，知道循环结束。</p>
+<h4 id="dispatch-queue-set-specific、dispatch-queue-get-specific"><a href="#dispatch-queue-set-specific、dispatch-queue-get-specific" class="headerlink" title="dispatch_queue_set_specific、dispatch_queue_get_specific"></a>dispatch_queue_set_specific、dispatch_queue_get_specific</h4><p>iOS6之后dispatch_get_current_queue()被废弃，我们可以通过dispatch_queue_set_specific来区分不同队列，相当于给队列加个名字。通过dispatch_queue_get_specific获取，</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/13/iOS多线程之NSOperation/" rel="next" title="iOS多线程之NSOperation">
+                <i class="fa fa-chevron-left"></i> iOS多线程之NSOperation
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="李昌庆" />
+          <p class="site-author-name" itemprop="name">李昌庆</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#iOS多线程之GCD"><span class="nav-number">1.</span> <span class="nav-text">iOS多线程之GCD</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#多线程"><span class="nav-number">1.1.</span> <span class="nav-text">多线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程的相关概念有："><span class="nav-number">1.1.1.</span> <span class="nav-text">多线程的相关概念有：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程编程的问题"><span class="nav-number">1.1.2.</span> <span class="nav-text">多线程编程的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程编程的优点"><span class="nav-number">1.1.3.</span> <span class="nav-text">多线程编程的优点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GCD"><span class="nav-number">1.2.</span> <span class="nav-text">GCD</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GCD的基本使用"><span class="nav-number">1.2.1.</span> <span class="nav-text">GCD的基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#队列"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">队列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#同步异步"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">同步异步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-apply"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">dispatch_apply</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-semaphore-t"><span class="nav-number">1.2.1.5.</span> <span class="nav-text">dispatch_semaphore_t</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-queue-set-specific、dispatch-queue-get-specific"><span class="nav-number">1.2.1.6.</span> <span class="nav-text">dispatch_queue_set_specific、dispatch_queue_get_specific</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李昌庆</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "b285d7dd9cf94cf39dc2e5a4957361f9",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
