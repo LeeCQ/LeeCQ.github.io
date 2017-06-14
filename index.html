@@ -257,7 +257,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="www.changqingli.info/2017/06/14/iOS多线程之GCD/">
+    <link itemprop="mainEntityOfPage" href="www.changqingli.info/2017/01/22/NSURLProtocol的简单使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李昌庆">
@@ -279,7 +279,133 @@
             
               
                 
-                <a class="post-title-link" href="/2017/06/14/iOS多线程之GCD/" itemprop="url">
+                <a class="post-title-link" href="/2017/01/22/NSURLProtocol的简单使用/" itemprop="url">
+                  NSURLProtocol的简单使用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-22T17:46:45+08:00">
+                2017-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="NSURLProtocol的简单使用"><a href="#NSURLProtocol的简单使用" class="headerlink" title="NSURLProtocol的简单使用"></a>NSURLProtocol的简单使用</h2><h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><h4 id="1-创建一个类继承NSURLProtocol"><a href="#1-创建一个类继承NSURLProtocol" class="headerlink" title="1. 创建一个类继承NSURLProtocol"></a>1. 创建一个类继承NSURLProtocol</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">CustomURLProtocl</span> : <span class="title">NSURLProtocol</span></span></div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<h4 id="2-在-BOOL-application-UIApplication-application-didFinishLaunchingWithOptions-NSDictionary-launchOptions方法中注册"><a href="#2-在-BOOL-application-UIApplication-application-didFinishLaunchingWithOptions-NSDictionary-launchOptions方法中注册" class="headerlink" title="2. 在- (BOOL)application:(UIApplication )application didFinishLaunchingWithOptions:(NSDictionary )launchOptions方法中注册"></a>2. 在- (BOOL)application:(UIApplication <em>)application didFinishLaunchingWithOptions:(NSDictionary </em>)launchOptions方法中注册</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="built_in">NSDictionary</span> *)launchOptions &#123;</div><div class="line"></div><div class="line">    [<span class="built_in">NSURLProtocol</span> registerClass:[CustomURLProtocl <span class="keyword">class</span>]];</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/01/22/NSURLProtocol的简单使用/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="www.changqingli.info/2016/07/14/iOS多线程之GCD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李昌庆">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="李昌庆的blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/14/iOS多线程之GCD/" itemprop="url">
                   iOS多线程之GCD
                 </a>
               
@@ -296,8 +422,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-14T15:18:30+08:00">
-                2017-06-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-14T15:18:30+08:00">
+                2016-07-14
               </time>
             
 
@@ -342,7 +468,7 @@
 <p>由于使用多线程的程序可以在某个线程和其他线程之间反复多次进行上下文切换，因此看上去就好像 1 个 CPU 核能够并列地执行多个线程一样。而且在具有多个 CPU 核的情况下，就不是「看上去像」了，而是真的提供了多个 CPU 核并行执行多个线程的技术。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/06/14/iOS多线程之GCD/#more" rel="contents">
+            <a class="btn" href="/2016/07/14/iOS多线程之GCD/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -388,7 +514,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="www.changqingli.info/2017/06/13/iOS多线程之NSOperation/">
+    <link itemprop="mainEntityOfPage" href="www.changqingli.info/2016/06/13/iOS多线程之NSOperation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李昌庆">
@@ -410,7 +536,7 @@
             
               
                 
-                <a class="post-title-link" href="/2017/06/13/iOS多线程之NSOperation/" itemprop="url">
+                <a class="post-title-link" href="/2016/06/13/iOS多线程之NSOperation/" itemprop="url">
                   iOS多线程之NSOperation
                 </a>
               
@@ -427,8 +553,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-13T23:50:18+08:00">
-                2017-06-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-13T23:50:18+08:00">
+                2016-06-13
               </time>
             
 
@@ -469,7 +595,7 @@
 <p>NSOperation是基于GCD的面向对象的封装，它的控制粒度更细。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/06/13/iOS多线程之NSOperation/#more" rel="contents">
+            <a class="btn" href="/2016/06/13/iOS多线程之NSOperation/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -515,7 +641,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="www.changqingli.info/2017/06/10/ios属性中的关键字/">
+    <link itemprop="mainEntityOfPage" href="www.changqingli.info/2016/01/10/ios属性中的关键字/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李昌庆">
@@ -537,7 +663,7 @@
             
               
                 
-                <a class="post-title-link" href="/2017/06/10/ios属性中的关键字/" itemprop="url">
+                <a class="post-title-link" href="/2016/01/10/ios属性中的关键字/" itemprop="url">
                   ios属性中的关键字
                 </a>
               
@@ -554,8 +680,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-10T12:34:52+08:00">
-                2017-06-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-10T12:34:52+08:00">
+                2016-01-10
               </time>
             
 
@@ -597,133 +723,7 @@
 <p>@property 我们称之为“属性”，“属性”有两大概念：ivar（实例变量） getter + setter（存取方法）<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/06/10/ios属性中的关键字/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="www.changqingli.info/2017/03/22/NSURLProtocol的简单使用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李昌庆">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="李昌庆的blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/22/NSURLProtocol的简单使用/" itemprop="url">
-                  NSURLProtocol的简单使用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-22T17:46:45+08:00">
-                2017-03-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="NSURLProtocol的简单使用"><a href="#NSURLProtocol的简单使用" class="headerlink" title="NSURLProtocol的简单使用"></a>NSURLProtocol的简单使用</h2><h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><h4 id="1-创建一个类继承NSURLProtocol"><a href="#1-创建一个类继承NSURLProtocol" class="headerlink" title="1. 创建一个类继承NSURLProtocol"></a>1. 创建一个类继承NSURLProtocol</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">CustomURLProtocl</span> : <span class="title">NSURLProtocol</span></span></div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
-<h4 id="2-在-BOOL-application-UIApplication-application-didFinishLaunchingWithOptions-NSDictionary-launchOptions方法中注册"><a href="#2-在-BOOL-application-UIApplication-application-didFinishLaunchingWithOptions-NSDictionary-launchOptions方法中注册" class="headerlink" title="2. 在- (BOOL)application:(UIApplication )application didFinishLaunchingWithOptions:(NSDictionary )launchOptions方法中注册"></a>2. 在- (BOOL)application:(UIApplication <em>)application didFinishLaunchingWithOptions:(NSDictionary </em>)launchOptions方法中注册</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="built_in">NSDictionary</span> *)launchOptions &#123;</div><div class="line"></div><div class="line">    [<span class="built_in">NSURLProtocol</span> registerClass:[CustomURLProtocl <span class="keyword">class</span>]];</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/22/NSURLProtocol的简单使用/#more" rel="contents">
+            <a class="btn" href="/2016/01/10/ios属性中的关键字/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
